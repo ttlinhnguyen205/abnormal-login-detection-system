@@ -222,5 +222,3 @@ Trong tương lai có thể mở rộng:
 * Dashboard trực quan bằng biểu đồ.
 * Machine Learning phát hiện hành vi bất thường.
 * Tích hợp hệ thống SIEM.
-
----
