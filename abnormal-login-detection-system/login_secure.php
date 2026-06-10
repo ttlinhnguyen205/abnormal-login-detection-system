@@ -78,7 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     header("Location: dashboard.php");
                     exit;
-
                 } else {
 
                     $failed = $user["failed_attempts"] + 1;
@@ -152,7 +151,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         );
 
                         $message = "Sai 5 lần. Tài khoản bị khóa trong 1 phút.";
-
                     } else {
 
                         $update = $pdo->prepare(
@@ -171,7 +169,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                 }
             }
-
         } else {
 
             $message = "Tài khoản không tồn tại.";
@@ -190,36 +187,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Đăng nhập hệ thống</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h2>Đăng nhập hệ thống</h2>
+        <h2>Đăng nhập hệ thống</h2>
 
-    <form method="POST">
+        <form method="POST">
 
-        <label>Username</label>
-        <input type="text" name="username" required>
+            <label>Username</label>
+            <input type="text" name="username" required>
 
-        <label>Password</label>
-        <input type="password" name="password" required>
+            <label>Password</label>
+            <input type="password" name="password" required>
 
-        <button type="submit">Đăng nhập</button>
+            <button type="submit">Đăng nhập</button>
 
-    </form>
+        </form>
 
-    <p class="message">
-        <?php echo htmlspecialchars($message); ?>
-    </p>
+        <p class="message">
+            <?php echo htmlspecialchars($message); ?>
+        </p>
 
-    <a href="register.php">Đăng ký tài khoản</a>
+        <a href="register.php">Đăng ký tài khoản</a>
 
-</div>
+    </div>
 
 </body>
+
 </html>
