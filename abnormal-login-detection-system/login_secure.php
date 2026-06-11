@@ -53,6 +53,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     "Blocked login attempt because account is locked"
                 );
             } else {
+                if (
+                    $user["locked_until"] != null &&
+                    strtotime($user["locked_until"]) <= time()
+                ) {
+
+                    $resetLock = $pdo->prepare(
+                        "UPDATE users
+             SET failed_attempts = 0,
+                 locked_until = NULL
+             WHERE id = ?"
+                    );
+
+                    $resetLock->execute([$user["id"]]);
+
+                    $user["failed_attempts"] = 0;
+                    $user["locked_until"] = null;
+                }
 
                 if (password_verify($password, $user["password"])) {
 
@@ -128,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     if ($failed >= 5) {
 
-                        $locked_until = date("Y-m-d H:i:s", time() + 60);
+                        $locked_until = date("Y-m-d H:i:s", time() + 300);
 
                         $update = $pdo->prepare(
                             "UPDATE users
@@ -147,10 +164,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $username,
                             "ACCOUNT_LOCKED",
                             "ALERT",
-                            "Account locked for 1 minute because of multiple failed login attempts"
+                            "Account locked for 5 minutes because of multiple failed login attempts"
                         );
 
-                        $message = "Sai 5 lần. Tài khoản bị khóa trong 1 phút.";
+                        $message = "Sai 5 lần. Tài khoản bị khóa trong 5 phút.";
                     } else {
 
                         $update = $pdo->prepare(
